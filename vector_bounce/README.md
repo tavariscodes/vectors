@@ -1,0 +1,1 @@
+![Demo of vector addition](https://i.imgur.com/y8lPPne.gif)
