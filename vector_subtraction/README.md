@@ -1,1 +1,1 @@
-![Demo of vector subtraction](./assets/vector_sub.gif)
+![Demo of vector subtraction](https://i.imgur.com/y8lPPne.gif)
