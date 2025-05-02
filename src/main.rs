@@ -1,4 +1,6 @@
-use eframe::egui::{self, Color32, Pos2};
+use std::ops::Add;
+
+use eframe::egui::{self, Color32, Pos2, Vec2};
 
 fn main() {
     env_logger::init();
@@ -17,19 +19,15 @@ fn main() {
 }
 
 pub struct MyBall {
-    x: f32,
-    y: f32,
-    xspeed: f32,
-    yspeed: f32,
+    position: Pos2,
+    velocity: Vec2
 }
 
 impl Default for MyBall {
     fn default() -> Self {
         Self {
-            x: 100.0,
-            y: 100.0,
-            xspeed: 2.5,
-            yspeed: 2.0,
+            position: Pos2::new(100.0, 100.0),
+            velocity: Vec2::new(2.5, 2.0),
         }
     }
 }
@@ -46,18 +44,17 @@ impl eframe::App for MyBall {
             let painter = ui.painter();
             painter.rect_filled(rect, 0.0, Color32::WHITE);
 
-            self.x += self.xspeed;
-            self.y += self.yspeed;
+            self.position = self.position.add(self.velocity);
 
-            if self.x > rect.right() || self.x < rect.left() {
-                self.xspeed *= -1.0;
+            if self.position.x > rect.right() || self.position.x < rect.left() {
+                self.velocity.x *= -1.0;
             }
 
-            if self.y > rect.bottom() || self.y < rect.top() {
-                self.yspeed *= -1.0;
+            if self.position.y > rect.bottom() || self.position.y < rect.top() {
+                self.velocity.y *= -1.0;
             }
 
-            painter.circle_filled(Pos2::new(self.x, self.y), 20.0, Color32::GRAY);
+            painter.circle_filled(self.position, 20.0, Color32::GRAY);
 
             ctx.request_repaint(); // Force continuous animation
         });
