@@ -1,1 +1,1 @@
-![Demo of vector subtraction](assets/demo.gif)
+![Demo of vector subtraction](./assets/vector_sub.gif)
