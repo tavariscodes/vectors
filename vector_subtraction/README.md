@@ -1,0 +1,2 @@
+![Demo of vector subtraction](https://i.imgur.com/y8lPPne.gif)
+
