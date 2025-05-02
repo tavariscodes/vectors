@@ -5,7 +5,7 @@ edition = "2024"
 
 [workspace]
 members = [
-    "vector_bounce",
+    "vector_bounce", "vector_subtraction",
 ]
 
 [workspace.dependencies]

@@ -3077,6 +3077,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "vector_subtraction"
+version = "0.1.0"
+dependencies = [
+ "eframe",
+ "env_logger",
+]
+
+[[package]]
 name = "vectors"
 version = "0.1.0"
 

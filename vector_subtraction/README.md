@@ -1,0 +1,1 @@
+![Demo of vector subtraction](assets/demo.gif)
