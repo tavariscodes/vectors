@@ -2,12 +2,6 @@ use eframe::egui::{self, Color32, Pos2, Rect, Vec2};
 use rand::rng;
 use rand_distr::{Distribution, UnitCircle};
 
-fn random_unit_vec2() -> Vec2 {
-    let mut rng = rng();
-    let [x, y]: [f32; 2] = UnitCircle.sample(&mut rng);
-    Vec2::new(x, y)
-}
-
 fn main() {
     env_logger::init();
 
@@ -40,13 +34,14 @@ impl Default for Mover {
 }
 
 impl Mover {
-    pub fn update(&mut self) {
-        let max_speed = 5.0;
+    pub fn update(&mut self, ctx: &egui::Context) {
+        let max_speed = 10.0;
 
-        self.acceleration = random_unit_vec2();
+        if let Some(mouse_pos) = ctx.pointer_hover_pos() {
+            let direction = mouse_pos - self.position;
+            self.acceleration = direction.normalized() * 0.2;
+        }
 
-        self.acceleration = self.acceleration.normalized() * 2.0; 
-        
         self.velocity += self.acceleration;
 
         if self.velocity.length() > max_speed {
@@ -75,7 +70,15 @@ impl Mover {
     }
 }
 
+fn random_unit_vec2() -> Vec2 {
+    let mut rng = rng();
+    let [x, y]: [f32; 2] = UnitCircle.sample(&mut rng);
+    Vec2::new(x, y)
+}
+
 // Acceleration = the rate of change of velocity.
+// It's crucial to understand that acceleration doesn't just refer to "speeding up" or "slowing down"
+// it refers to ANY change in velocity - magnitude or direction
 
 impl eframe::App for Mover {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
@@ -84,7 +87,7 @@ impl eframe::App for Mover {
             let painter = ui.painter();
             painter.rect_filled(rect, 0.0, Color32::WHITE);
 
-            self.update();
+            self.update(ctx);
             self.check_edges(&rect);
             self.show(painter);
 
